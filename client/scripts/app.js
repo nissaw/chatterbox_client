@@ -37,7 +37,6 @@ var insertMessage = function() {
     this.username = getUsername();
     this.text = getText();
     this.roomname = getRoom();
-    console.log(this.roomname)
   };
   var message = new Message();
   
@@ -85,24 +84,43 @@ var getMessages = function(param) {  // getMessages(roomname)
 
 setTimeout(getMessages, 500); 
 
+
+//////////////////UPDATING ROOM SELECTION//////////////////////////////////
 var switchRoom = function() {
-  console.log("You are switching rooms");
+  // console.log("You are switching rooms");
    $('#posts').empty();
 
     var room = escapeHtml($('#rooms').val());
-    console.log(room);
-
-    for ( var i = 0; i < currentData.length; i++ ){
-      var messageObj = currentData[i];
-      if (messageObj.roomname === room){
-        var user = messageObj.username;
-        var message = messageObj.text;
+    // console.log(room);
+    if (room === 'Create A New Room') {
+      createNewRoom();
+    } else if (room === "Main Room") {
+      for (var i = 0; i < currentData.length; i++) {
+        var messageObj = currentData[i];
+        var user = escapeHtml(messageObj.username);
+        var message = escapeHtml(messageObj.text);
         $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
         $('#posts').append($('<div class="messages">' + message + '</div>'));
+      }
+    } else {
+      for ( var i = 0; i < currentData.length; i++ ){
+        var messageObj = currentData[i];
+        if (messageObj.roomname === room){
+          var user = escapeHtml(messageObj.username);
+          var message = escapeHtml(messageObj.text);
+          $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
+          $('#posts').append($('<div class="messages">' + message + '</div>'));
 
+        }
       }
     }
   };
+
+  var createNewRoom = function() {
+    var newRoomName = escapeHtml(prompt("What do you want to name your Room? Reminder: Your room wont be added until you initiate a conversation."));
+    $('#rooms').prepend($('<option id="' + newRoomName + '" value= "' + newRoomName + '">' + newRoomName + '</option>'));
+  };
+  
    
 
 
@@ -132,16 +150,13 @@ var switchRoom = function() {
 // };
 
 
+// outstanding issues
+  //submit sends you back to main room... doesn't keep you in same place
+  //need to be able to create a room
+  //click on user name to select their messages 
+  // 
 
 
-//////////////////UPDATING ROOM SELECTION//////////////////////////////////
-//when click on room name, clear messages and post message with room names as property
-//loop over the #rooms (contains all selection) and apply functionality all of the rooms in there 
-//on click, getUpdates with new rooms as constraints 
-// $(option).click(function() {
-//   this 
-// })
-// currentDate[room] === requested room
 ///// POPULATES THE DROPDOWN WITH ALL AVAILABLE ROOMS///////////
 var getRooms = function(data) {
   $('#rooms').empty();
@@ -157,13 +172,3 @@ var getRooms = function(data) {
    $('#rooms').append($('<option id=createNewRoom>Create A New Room</option>'));
 };
 
-
-
-// var switchRoom = function() {
-//   alert("switched room!");
-// }
-
-//option onclick
-//get current room variable like above
-//fix update messages to check for room
-//execute getMessages 
