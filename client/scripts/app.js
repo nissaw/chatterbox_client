@@ -99,8 +99,8 @@ var switchRoom = function() {
         var messageObj = currentData[i];
         var user = escapeHtml(messageObj.username);
         var message = escapeHtml(messageObj.text);
-        $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
-        $('#posts').append($('<div class="messages">' + message + '</div>'));
+        $('#posts').append($('<p class="users" id ="' + user + '" >' + user + '</p>'));
+        $('#posts').append($('<div class="messages" id ="' + user + '">' + message + '</div>'));
       }
     } else {
       for ( var i = 0; i < currentData.length; i++ ){
@@ -108,8 +108,8 @@ var switchRoom = function() {
         if (messageObj.roomname === room){
           var user = escapeHtml(messageObj.username);
           var message = escapeHtml(messageObj.text);
-          $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
-          $('#posts').append($('<div class="messages">' + message + '</div>'));
+          $('#posts').append($('<p class="users" id ="' + user + '" >' + user + '</p>'));
+          $('#posts').append($('<div class="messages" id ="' + user + '">' + message + '</div>'));
 
         }
       }
@@ -120,43 +120,6 @@ var switchRoom = function() {
     var newRoomName = escapeHtml(prompt("What do you want to name your Room? Reminder: Your room wont be added until you initiate a conversation."));
     $('#rooms').prepend($('<option id="' + newRoomName + '" value= "' + newRoomName + '">' + newRoomName + '</option>'));
   };
-  
-   
-
-
-// var displayMessages = function(data) {
-//   $('#posts').empty();
-
-//   if (escapeHtml($('#rooms').val()) === "Main Room") {
-//     for (var i = 0; i < data.results.length; i++) {
-//           var user = escapeHtml(data.results[i].username);
-//           var message = escapeHtml(data.results[i].text);
-//           $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
-//           $('#posts').append($('<div class="messages">' + message + '</div>'));
-//     } 
-//   } else {
-//     var currentRoom = escapeHtml($('#rooms').val());
-//     console.log(currentRoom);
-//     for (var i = 0; i < data.results.length; i++) { 
-//       console.log(data.results[i].roomname);
-//       if (data.results[i].roomname === currentRoom) {
-//         var user = escapeHtml(data.results[i].username);
-//         var message = escapeHtml(data.results[i].text);
-//         $('#posts').append($('<p class =""' + user + '">' + user + '</p>'));
-//         $('#posts').append($('<div class="messages">' + message + '</div>'));
-//       }
-//     }
-//   }
-// };
-
-
-// outstanding issues
-  //submit sends you back to main room... doesn't keep you in same place
-  //need to be able to create a room
-  //click on user name to select their messages 
-  // 
-
-
 ///// POPULATES THE DROPDOWN WITH ALL AVAILABLE ROOMS///////////
 var getRooms = function(data) {
   $('#rooms').empty();
@@ -172,3 +135,15 @@ var getRooms = function(data) {
    $('#rooms').append($('<option id=createNewRoom>Create A New Room</option>'));
 };
 
+$(function() {
+  $("#posts").on('click', 'p', function() {
+      var user = $(this).attr('id');
+      $('#posts #' + user ).addClass('friends');
+  });
+});
+
+
+
+// outstanding issues
+  //submit sends you back to main room... doesn't keep you in same place
+  

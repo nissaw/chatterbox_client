@@ -85,5 +85,8 @@ form input[type=text] {
 #posts p{
     color: red;
     font-size: 20px;
+    font-weight: italic;
+}
+.friends {
     font-weight: bold;
 }
